@@ -1,42 +1,45 @@
 import 'package:get/get.dart';
-import 'package:flutter/material.dart';
 
-class TeacherProfileController extends GetxController {
-  // ตัวแปรสำหรับเก็บข้อมูลครู
+class ProfileController extends GetxController {
   var isEditing = false.obs;
   var profileImage = ''.obs;
-  var teacherName = 'ครูสมหญิง ประจำสกุล'.obs;
-  var homeroom = 'ม.2/3'.obs;
-  var subjects = 'คณิตศาสตร์, วิทยาศาสตร์'.obs;
+  var teacherName = 'ครูสมหญิง ใจดี'.obs;
+  var homeroom = 'ม.1/1'.obs;
+  var subjects = 'คณิตศาสตร์'.obs;
 
   void toggleEdit() {
     isEditing.value = !isEditing.value;
   }
 
   void saveProfile() {
-    // บันทึกข้อมูล (ในความเป็นจริงจะส่งไปยัง API)
     isEditing.value = false;
     Get.snackbar(
       'สำเร็จ',
-      'บันทึกข้อมูลครูเรียบร้อยแล้ว',
-      backgroundColor: Colors.green,
-      colorText: Colors.white,
+      'บันทึกข้อมูลเรียบร้อยแล้ว',
       snackPosition: SnackPosition.TOP,
+      backgroundColor: Get.theme.primaryColor,
+      colorText: Get.theme.colorScheme.onPrimary,
     );
   }
 
   void changeProfileImage() {
-    // เปิด Gallery หรือ Camera (ในความเป็นจริงจะใช้ image_picker)
+    // ในการใช้งานจริง จะเป็นการเปิด Image Picker
     Get.snackbar(
       'เปลี่ยนรูปโปรไฟล์',
-      'คุณสามารถเลือกรูปจาก Gallery หรือถ่ายรูปใหม่',
-      backgroundColor: Colors.blue,
-      colorText: Colors.white,
+      'คุณสามารถเลือกรูปภาพจากแกลลอรี่ได้',
       snackPosition: SnackPosition.TOP,
     );
   }
 
-  void updateTeacherName(String value) => teacherName.value = value;
-  void updateHomeroom(String value) => homeroom.value = value;
-  void updateSubjects(String value) => subjects.value = value;
+  void updateTeacherName(String value) {
+    teacherName.value = value;
+  }
+
+  void updateHomeroom(String value) {
+    homeroom.value = value;
+  }
+
+  void updateSubjects(String value) {
+    subjects.value = value;
+  }
 }

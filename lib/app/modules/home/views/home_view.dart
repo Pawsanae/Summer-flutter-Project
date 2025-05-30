@@ -1,34 +1,11 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-
 import '../controllers/home_controller.dart';
-
-// Widget หลัก
-class ScheduleApp extends StatelessWidget {
-  const ScheduleApp({super.key});
+class HomeView extends GetView<HomeController> {
+  const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'การแจ้งเตือน',
-      theme: ThemeData(
-        primarySwatch: Colors.purple,
-        fontFamily: 'Kanit', // ใช้ฟอนต์ไทย
-      ),
-      home: const ScheduleHomePage(),
-    );
-  }
-}
-
-// หน้าหลัก
-class ScheduleHomePage extends StatelessWidget {
-  const ScheduleHomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final ScheduleController controller = Get.put(ScheduleController());
-
     return Scaffold(
       backgroundColor: Colors.grey[100],
       body: SafeArea(
@@ -39,47 +16,20 @@ class ScheduleHomePage extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
+                children: const [
+                  Text(
                     'การแจ้งเตือน',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Obx(() => IconButton(
-                    onPressed: controller.onNotificationTap,
-                    icon: Stack(
-                      children: [
-                        const Icon(Icons.notifications, size: 28),
-                        if (controller.notificationCount.value > 0)
-                          Positioned(
-                            right: 0,
-                            top: 0,
-                            child: Container(
-                              padding: const EdgeInsets.all(4),
-                              decoration: const BoxDecoration(
-                                color: Colors.red,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Text(
-                                '${controller.notificationCount.value}',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
-                  )),
+                  Icon(Icons.notifications), // เพิ่ม icon หรือ widget ตามต้องการ
                 ],
               ),
             ),
-            
 
+            // List ของรายการแจ้งเตือน
             Expanded(
               child: Obx(() => ListView.builder(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -93,7 +43,7 @@ class ScheduleHomePage extends StatelessWidget {
                 },
               )),
             ),
-            
+
             // Bottom Navigation Bar
             Container(
               height: 80,
@@ -107,9 +57,13 @@ class ScheduleHomePage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildBottomNavItem(Icons.person, false),
-                  _buildBottomNavItem(Icons.notifications, true),
-                  _buildBottomNavItem(Icons.assignment, false),
+                  _buildBottomNavItem(Icons.person, false, () {
+                    Get.toNamed('/profile');
+                  }),
+                  _buildBottomNavItem(Icons.notifications, true, () {}),
+                  _buildBottomNavItem(Icons.assignment, false, () {
+                    Get.toNamed('/data-stu');
+                  }),
                 ],
               ),
             ),
@@ -119,17 +73,20 @@ class ScheduleHomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomNavItem(IconData icon, bool isActive) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: isActive ? Colors.orange : Colors.transparent,
-        shape: BoxShape.circle,
-      ),
-      child: Icon(
-        icon,
-        color: Colors.white,
-        size: 28,
+  Widget _buildBottomNavItem(IconData icon, bool isActive, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: isActive ? Colors.orange : Colors.transparent,
+          shape: BoxShape.circle,
+        ),
+        child: Icon(
+          icon,
+          color: Colors.white,
+          size: 28,
+        ),
       ),
     );
   }
@@ -141,9 +98,9 @@ class ScheduleCard extends StatelessWidget {
   final VoidCallback onTap;
 
   const ScheduleCard({
-  super.key,
-  required this.item,
-  required this.onTap,
+    super.key,
+    required this.item,
+    required this.onTap,
   });
 
   @override
@@ -223,4 +180,3 @@ class ScheduleCard extends StatelessWidget {
     }
   }
 }
-

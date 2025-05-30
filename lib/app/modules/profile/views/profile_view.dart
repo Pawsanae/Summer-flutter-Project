@@ -2,32 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/profile_controller.dart';
 
-class ProfileApp extends StatelessWidget {
-  const ProfileApp({super.key});
+class ProfileView extends GetView<ProfileController> {
+  const ProfileView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'ข้อมูลครู',
-      theme: ThemeData(
-        primarySwatch: Colors.purple,
-        fontFamily: 'Kanit', // ใช้ฟอนต์ไทย
-      ),
-      home: const TeacherProfilePage(),
-    );
-  }
-}
-
-// หน้าข้อมูลครู
-class TeacherProfilePage extends StatelessWidget {
-  const TeacherProfilePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final TeacherProfileController controller = Get.put(
-      TeacherProfileController(),
-    );
-
     return Scaffold(
       backgroundColor: Colors.grey[100],
       body: SafeArea(
@@ -45,17 +24,15 @@ class TeacherProfilePage extends StatelessWidget {
                   ),
                   Obx(
                     () => IconButton(
-                      onPressed:
-                          controller.isEditing.value
-                              ? controller.saveProfile
-                              : controller.toggleEdit,
+                      onPressed: controller.isEditing.value
+                          ? controller.saveProfile
+                          : controller.toggleEdit,
                       icon: Icon(
                         controller.isEditing.value ? Icons.save : Icons.edit,
                         size: 28,
-                        color:
-                            controller.isEditing.value
-                                ? Colors.green
-                                : Colors.blue,
+                        color: controller.isEditing.value
+                            ? Colors.green
+                            : Colors.blue,
                       ),
                     ),
                   ),
@@ -198,30 +175,29 @@ class TeacherImageWidget extends StatelessWidget {
               ],
             ),
             child: ClipOval(
-              child:
-                  imageUrl.isNotEmpty
-                      ? Image.network(
-                        imageUrl,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Container(
-                            color: Colors.grey[300],
-                            child: const Icon(
-                              Icons.person,
-                              size: 60,
-                              color: Colors.grey,
-                            ),
-                          );
-                        },
-                      )
-                      : Container(
-                        color: Colors.grey[300],
-                        child: const Icon(
-                          Icons.person,
-                          size: 60,
-                          color: Colors.grey,
-                        ),
+              child: imageUrl.isNotEmpty
+                  ? Image.network(
+                      imageUrl,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          color: Colors.grey[300],
+                          child: const Icon(
+                            Icons.person,
+                            size: 60,
+                            color: Colors.grey,
+                          ),
+                        );
+                      },
+                    )
+                  : Container(
+                      color: Colors.grey[300],
+                      child: const Icon(
+                        Icons.person,
+                        size: 60,
+                        color: Colors.grey,
                       ),
+                    ),
             ),
           ),
           if (isEditing)
@@ -248,7 +224,7 @@ class TeacherImageWidget extends StatelessWidget {
 }
 
 // Component สำหรับ Card ข้อมูลครูแต่ละรายการ
-class TeacherInfoCard extends StatelessWidget {
+class TeacherInfoCard extends StatefulWidget {
   final IconData icon;
   final String title;
   final String value;
@@ -269,12 +245,49 @@ class TeacherInfoCard extends StatelessWidget {
   });
 
   @override
+  State<TeacherInfoCard> createState() => _TeacherInfoCardState();
+}
+
+class _TeacherInfoCardState extends State<TeacherInfoCard> {
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.value);
+  }
+
+  @override
+  void didUpdateWidget(TeacherInfoCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // อัพเดต controller เมื่อ value เปลี่ยน แต่รักษา cursor position
+    if (oldWidget.value != widget.value) {
+      final selection = _controller.selection;
+      _controller.text = widget.value;
+      // รักษา cursor position หรือย้ายไปท้ายสุดถ้า position เกิน
+      if (selection.isValid && selection.end <= widget.value.length) {
+        _controller.selection = selection;
+      } else {
+        _controller.selection = TextSelection.fromPosition(
+          TextPosition(offset: widget.value.length),
+        );
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       child: Material(
         borderRadius: BorderRadius.circular(20),
-        color: color,
+        color: widget.color,
         elevation: 2,
         child: Container(
           padding: const EdgeInsets.all(16),
@@ -288,7 +301,7 @@ class TeacherInfoCard extends StatelessWidget {
                   color: Colors.white,
                   shape: BoxShape.circle,
                 ),
-                child: Icon(icon, color: color, size: 24),
+                child: Icon(widget.icon, color: widget.color, size: 24),
               ),
 
               const SizedBox(width: 16),
@@ -299,7 +312,7 @@ class TeacherInfoCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      title,
+                      widget.title,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 14,
@@ -307,11 +320,11 @@ class TeacherInfoCard extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 4),
-                    if (isEditing)
+                    if (widget.isEditing)
                       TextField(
-                        controller: TextEditingController(text: value),
-                        onChanged: onChanged,
-                        maxLines: isMultiline ? 3 : 1,
+                        controller: _controller,
+                        onChanged: widget.onChanged,
+                        maxLines: widget.isMultiline ? 3 : 1,
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 16,
@@ -327,15 +340,15 @@ class TeacherInfoCard extends StatelessWidget {
                             horizontal: 12,
                             vertical: 8,
                           ),
-                          hintText: _getHintText(title),
+                          hintText: _getHintText(widget.title),
                           hintStyle: const TextStyle(color: Colors.grey),
                         ),
                       )
                     else
                       Text(
-                        value.isEmpty ? 'ไม่ระบุ' : value,
+                        widget.value.isEmpty ? 'ไม่ระบุ' : widget.value,
                         style: TextStyle(
-                          color: value.isEmpty ? Colors.white70 : Colors.white,
+                          color: widget.value.isEmpty ? Colors.white70 : Colors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                         ),
@@ -362,8 +375,4 @@ class TeacherInfoCard extends StatelessWidget {
         return '';
     }
   }
-}
-
-void main() {
-  runApp(ProfileApp());
 }

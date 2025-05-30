@@ -17,12 +17,12 @@ class AppPages {
   static final routes = [
     GetPage(
       name: _Paths.HOME,
-      page: () => const ScheduleApp(),
+      page: () => const HomeView(),
       binding: HomeBinding(),
     ),
     GetPage(
       name: _Paths.PROFILE,
-      page: () => const TeacherProfilePage(),
+      page: () => const ProfileView(),
       binding: ProfileBinding(),
     ),
     GetPage(
