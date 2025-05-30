@@ -4,24 +4,6 @@ import 'package:get/get.dart';
 
 import '../controllers/home_controller.dart';
 
-// Model สำหรับข้อมูลรายการ
-class ScheduleItem {
-  final String title;
-  final String subtitle;
-  final IconData icon;
-  final Color color;
-  final String type; // 'class' หรือ 'assignment'
-
-  ScheduleItem({
-    required this.title,
-    required this.subtitle,
-    required this.icon,
-    required this.color,
-    required this.type,
-  });
-}
-
-
 // Widget หลัก
 class ScheduleApp extends StatelessWidget {
   const ScheduleApp({Key? key}) : super(key: key);
