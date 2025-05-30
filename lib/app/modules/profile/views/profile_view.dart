@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/profile_controller.dart';
-import 'home_view.dart';
 
 class ProfileApp extends StatelessWidget {
   const ProfileApp({super.key});
@@ -365,3 +364,6 @@ class TeacherInfoCard extends StatelessWidget {
   }
 }
 
+void main() {
+  runApp(ProfileApp());
+}
