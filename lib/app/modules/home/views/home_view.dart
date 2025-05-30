@@ -11,7 +11,7 @@ class ScheduleApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'ตารางเรียน',
+      title: 'การแจ้งเตือน',
       theme: ThemeData(
         primarySwatch: Colors.purple,
         fontFamily: 'Kanit', // ใช้ฟอนต์ไทย
@@ -41,7 +41,7 @@ class ScheduleHomePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
-                    'ตารางเรียนวันนี้',
+                    'การแจ้งเตือน',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -79,7 +79,7 @@ class ScheduleHomePage extends StatelessWidget {
               ),
             ),
             
-            // รายการตารางเรียน
+
             Expanded(
               child: Obx(() => ListView.builder(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -145,8 +145,6 @@ class ScheduleCard extends StatelessWidget {
   required this.item,
   required this.onTap,
   });
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -224,9 +222,4 @@ class ScheduleCard extends StatelessWidget {
       return Icons.assignment;
     }
   }
-}
-
-// Entry point
-void main() {
-  runApp(const ScheduleApp());
 }

@@ -7,9 +7,21 @@ import 'app/routes/app_pages.dart';
 void main() {
   runApp(
     GetMaterialApp(
-      title: "Application",
-      initialRoute: AppPages.INITIAL,
-      getPages: AppPages.routes,
-    ),
+      initialRoute: _Paths.HOME,
+      getPages: [
+        GetPage(
+          name: _Paths.HOME,
+          page: () => const HomeView(),
+        ),
+        GetPage(
+          name: _Paths.PROFILE,
+          page: () => const ProfileView(),
+        ),
+        GetPage(
+          name: _Paths.DATA_STU,
+          page: () => const DataStuView(),
+        ),
+      ],
+    )
   );
 }

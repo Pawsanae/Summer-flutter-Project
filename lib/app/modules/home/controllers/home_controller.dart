@@ -65,7 +65,7 @@ class ScheduleController extends GetxController {
   void loadScheduleData() {
     scheduleItems.value = [
       ScheduleItem(
-        title: 'ด.ช. อนพัทร์ สว่างศรี',
+        title: 'ด.ช. อนพัทธ์ สว่างศรี',
         subtitle: 'เข้าใจเรียนเวลา 07.59 น.',
         icon: Icons.school,
         color: const Color(0xFF7B68EE),
@@ -79,14 +79,14 @@ class ScheduleController extends GetxController {
         type: 'assignment',
       ),
       ScheduleItem(
-        title: 'ด.ช. กรรณิการ์ เอี่ยงอวน',
+        title: 'ด.ช. กรรณิการ์ เอ้งฉวน',
         subtitle: 'เข้าใจเรียนเวลา 07.30 น.',
         icon: Icons.school,
         color: const Color(0xFF7B68EE),
         type: 'class',
       ),
       ScheduleItem(
-        title: 'วิชาวิทยาศาสตร์ ป.1',
+        title: 'วิชาคณิตศาสตร์ ป.1',
         subtitle: 'กำหนดส่งการบ้านภายใน 16.00 น.',
         icon: Icons.science,
         color: const Color(0xFFFF69B4),
@@ -100,7 +100,7 @@ class ScheduleController extends GetxController {
         type: 'class',
       ),
       ScheduleItem(
-        title: 'วิชาภาษาอังกฤษ ป.2',
+        title: 'วิชาคณิตศาสตร์ ป.2',
         subtitle: 'หมดเวลาส่งการบ้าน',
         icon: Icons.language,
         color: const Color(0xFFFF69B4),
