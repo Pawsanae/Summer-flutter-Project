@@ -6,7 +6,7 @@ import '../controllers/home_controller.dart';
 
 // Widget หลัก
 class ScheduleApp extends StatelessWidget {
-  const ScheduleApp({Key? key}) : super(key: key);
+  const ScheduleApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class ScheduleApp extends StatelessWidget {
 
 // หน้าหลัก
 class ScheduleHomePage extends StatelessWidget {
-  const ScheduleHomePage({Key? key}) : super(key: key);
+  const ScheduleHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -141,10 +141,12 @@ class ScheduleCard extends StatelessWidget {
   final VoidCallback onTap;
 
   const ScheduleCard({
-    Key? key,
-    required this.item,
-    required this.onTap,
-  }) : super(key: key);
+  super.key,
+  required this.item,
+  required this.onTap,
+  });
+
+
 
   @override
   Widget build(BuildContext context) {
